@@ -6,7 +6,7 @@ import org.apache.flink.api.scala._
  * Created by Xu on 2022/11/6.
  * describe: 
  */
-object WordCount {
+object BatchWordCount {
   def main(args: Array[String]): Unit = {
     val env: ExecutionEnvironment = ExecutionEnvironment.getExecutionEnvironment
     val ds: DataSet[String] = env.readTextFile("input/words.txt")
