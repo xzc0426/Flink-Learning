@@ -23,6 +23,7 @@ object StreamWorldCountBySocket {
     dataStream.flatMap(_.split(" ")).map(t => (t, 1)).keyBy(_._1).sum(1).print()
 
     env.execute()
+
   }
 
 }
