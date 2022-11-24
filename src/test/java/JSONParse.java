@@ -38,7 +38,7 @@ public class JSONParse {
             JSONObject jsonObject1 = JSON.parseObject(str1);
             //通过getString获取数组，避免空指针，后续判断数据格式
             String mdata1 = jsonObject1.getString("MDATA");
-            if (mdata1.startsWith("[") && mdata1 != null) {
+            if (mdata1.startsWith("[") && mdata1 != "null") {
                 Object[] mdataObjects = JSON.parseArray(mdata1).toArray();
                 for (Object mdataObject : mdataObjects) {
                     JSONObject parseObject = JSON.parseObject(mdataObject.toString());

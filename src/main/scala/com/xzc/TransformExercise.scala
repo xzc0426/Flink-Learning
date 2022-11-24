@@ -2,8 +2,10 @@ package com.xzc
 
 import com.alibaba.fastjson.JSON
 import com.xzc.caseclass.Event
-import org.apache.flink.api.common.functions.{FilterFunction, MapFunction}
+import org.apache.flink.api.common.functions.{FilterFunction, FlatMapFunction, MapFunction}
+import org.apache.flink.streaming.api.datastream.DataStreamSink
 import org.apache.flink.streaming.api.scala._
+import org.apache.flink.util.Collector
 
 import scala.util.parsing.json.JSONObject
 
@@ -13,31 +15,23 @@ import scala.util.parsing.json.JSONObject
  */
 object TransformExercise {
 
-  val json =
-    """
-      |{"DT":"2022-11-23 11:00:00",
-      |"MPID":"0004000000000000000000000000000000000000000000000000000215260215",
-      |"MDATA":[{"VAL":"0","Q":"0","TAG":"Ia"}],
-      |"SSID":"EIA"}
-      |""".stripMargin
-
   def main(args: Array[String]): Unit = {
 
     val environment: StreamExecutionEnvironment = StreamExecutionEnvironment.getExecutionEnvironment
     environment.setParallelism(1)
-    val dataStream: DataStream[Event] = environment.fromElements(Event("1", 1), Event("2", 2))
-    dataStream.map(new GetNameMap).filter(new CustomFilter).print("999")
-    println(json)
+    val dataStream: DataStream[Event] = environment.fromElements(Event("w", 1), Event("w", 2), Event("z", 3))
+    dataStream.map(new CustomMap).filter(new CustomFilter).flatMap(new CustomFlatMap).print("999")
+
     environment.execute()
   }
 
-  class GetNameMap extends MapFunction[Event, String] {
+  class CustomMap extends MapFunction[Event, String] {
     override def map(t: Event): String = t.name
   }
 
   class CustomFilter extends FilterFunction[String] {
     override def filter(t: String): Boolean = {
-      if (t.equals("1")) {
+      if (t.equals("w")) {
         true
       } else {
         false
@@ -45,16 +39,15 @@ object TransformExercise {
     }
   }
 
-/*  class jsonFilter extends FilterFunction[String] {
-    override def filter(t: String): Boolean = {
-      val json1: MyJson = JSON.parseObject(t, classOf[MyJson])
-      val mdata: String = json1.MDATA
-      mdata
-
+  class CustomFlatMap extends FlatMapFunction[String, String] {
+    override def flatMap(t: String, collector: Collector[String]): Unit = {
+      if (t == "w") {
+        collector.collect("w1")
+        collector.collect("w2")
+      } else {
+        collector.collect("other")
+      }
     }
-  }*/
+  }
 
-  case class MyJson(
-                     DT: String, MPID: String, MDATA: String, SSID: String
-                   )
 }

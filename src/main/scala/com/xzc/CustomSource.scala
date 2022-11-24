@@ -23,18 +23,10 @@ class CustomSource extends ParallelSourceFunction[Event] {
       val event: Event = Event(
         names(random.nextInt(names.length)), // 随机选择一个 name
         ages(random.nextInt(ages.length)) // 随机选择一个 age
-
       )
-      sourceContext.collect(
-        /* Event(
-           //          name = (random.nextString(strings.length)),
-           //          age = (random.nextInt(ints.length))
-           names(random.nextInt(names.length)), // 随机选择一个 name
-           ages(random.nextInt(ages.length)) // 随机选择一个 age
 
-         )*/
-        event
-      )
+      //调用collect发送数据
+      sourceContext.collect(event)
 
 
       Thread.sleep(1000)
