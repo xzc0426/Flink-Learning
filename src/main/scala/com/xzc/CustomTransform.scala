@@ -1,19 +1,15 @@
 package com.xzc
 
-import com.alibaba.fastjson.JSON
 import com.xzc.caseclass.Event
 import org.apache.flink.api.common.functions.{FilterFunction, FlatMapFunction, MapFunction}
-import org.apache.flink.streaming.api.datastream.DataStreamSink
 import org.apache.flink.streaming.api.scala._
 import org.apache.flink.util.Collector
 
-import scala.util.parsing.json.JSONObject
-
 /**
  * Created by Xu on 2022/11/23.
- * describe: 
+ * describe: 包含自定义map、flatmap、filter
  */
-object TransformExercise {
+object CustomTransform {
 
   def main(args: Array[String]): Unit = {
 

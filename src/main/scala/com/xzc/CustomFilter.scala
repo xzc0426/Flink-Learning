@@ -80,7 +80,7 @@ object CustomFilter {
       val jsonObject: JSONObject = JSON.parseObject(t)
       //通过getString获取数组，避免空指针，后续判断数据格式
       val mdata: String = jsonObject.getString("MDATA")
-      if (mdata.startsWith("[") && mdata != "null" && mdata != null) {
+      if (mdata.startsWith("[") && "null" != mdata) {
         val mdataObjects: Array[AnyRef] = JSON.parseArray(mdata).toArray
         val listBuffer = new ListBuffer[String]()
         for (elem <- mdataObjects) {
@@ -119,7 +119,7 @@ object CustomFilter {
       val jsonObject: JSONObject = JSON.parseObject(t)
       //通过getString获取数组，避免空指针，后续判断数据格式
       val mdata: String = jsonObject.getString("MDATA")
-      if (mdata.startsWith("[") && (mdata != "null")) {
+      if (mdata.startsWith("[") && ("null" != mdata)) {
         val mdataObjects: Array[AnyRef] = JSON.parseArray(mdata).toArray
         for (elem <- mdataObjects) {
           val parseObject: JSONObject = JSON.parseObject(elem.toString)
@@ -134,7 +134,7 @@ object CustomFilter {
         }
 
       }*/
-          while (val1 == "null" || val1.trim == "") {
+          while ("null" == val1 || "" == val1.trim) {
             println(s"出现异常数据:$val1 \n 异常对象:$elem")
             return true
           }
