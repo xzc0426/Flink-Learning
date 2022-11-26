@@ -40,7 +40,7 @@ object CustomFilter {
       """
         |{"DT":"2022-11-23 11:00:00",
         |"MPID":"0004000000000000000000000000000000000000000000000000000215260215",
-        |"MDATA":{"TAG":"P","VAL":"","Q":"0"},
+        |"MDATA":{"TAG":"P","VAL":" ","Q":"0"},
         |"SSID":"EIA"}
         |""".stripMargin
     val dataStream: DataStream[String] = env.fromElements(json3)
@@ -81,6 +81,7 @@ object CustomFilter {
       //通过getString获取数组，避免空指针，后续判断数据格式
       val mdata: String = jsonObject.getString("MDATA")
       if (mdata.startsWith("[") && "null" != mdata) {
+        log.warn(s"mdata：$mdata 是数组")
         val mdataObjects: Array[AnyRef] = JSON.parseArray(mdata).toArray
         val listBuffer = new ListBuffer[String]()
         for (elem <- mdataObjects) {
@@ -97,6 +98,7 @@ object CustomFilter {
           false
         }
       } else if (mdata.startsWith("{")) {
+        log.warn(s"mdata：$mdata 不是数组")
         val mdataObjects: JSONObject = JSON.parseObject(mdata)
         val str: String = mdataObjects.getString("VAL")
         if (str == "null" || str.trim == "") {
@@ -143,6 +145,13 @@ object CustomFilter {
       } else {
         true
       }
+    }
+  }
+
+  //直接输出数据
+  private class CustomFilter4 extends FilterFunction[String] {
+    override def filter(t: String): Boolean = {
+      true
     }
   }
 }

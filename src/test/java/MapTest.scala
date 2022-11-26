@@ -1,3 +1,4 @@
+import java.lang.Integer.parseInt
 import java.util
 
 /**
@@ -36,6 +37,11 @@ object MapTest {
 
     val list1: List[String] = list.filterNot(_ != "1")
     println(list1)
+    println("================")
+    val str2:String = "1"
+    val i: Int = java.lang.Integer.parseInt(str2)
+    val value: Any = parseInt("2")
+    println(value)
 
   }
 }

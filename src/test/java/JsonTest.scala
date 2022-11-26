@@ -1,11 +1,7 @@
 import com.alibaba.fastjson.{JSON, JSONArray, JSONObject}
-import com.xzc.TransformExercise.MyJson
-import org.apache.avro.SchemaBuilder.array
 
 import java.util
-import java.util.Map
 import scala.collection.mutable
-import scala.util.parsing.json.JSON.jsonArray
 
 /**
  * Created by Xu on 2022/11/23.
@@ -74,8 +70,8 @@ object JsonTest {
     }*/
     for (elem <- array4) {
       val nObject1: JSONObject = JSON.parseObject(elem.toString)
-      if (nObject1.getString("VAL")=="null"){
-        println("发现null "+nObject1.getString("TAG"))
+      if (nObject1.getString("VAL") == "null") {
+        println("发现null " + nObject1.getString("TAG"))
       }
 
     }

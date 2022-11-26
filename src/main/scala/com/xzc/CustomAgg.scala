@@ -10,7 +10,7 @@ import scala.collection.mutable
 
 /**
  * Created by Xu on 2022/11/25.
- * describe: 
+ * describe: 自定义分组、聚合
  */
 object CustomAgg {
   def main(args: Array[String]): Unit = {
@@ -20,21 +20,24 @@ object CustomAgg {
 
     val dataStream: DataStream[Event] = env.addSource(new CustomSource)
     //    dataStream.keyBy(_.name)
-    dataStream.keyBy(new CustomKeySelector()).map(new CustomMap2()).map(new CustomMap3).print()
+    dataStream.keyBy(new CustomKeySelector()) //.map(new CustomMap2()).map(new CustomMap3).print()
 
     env.execute()
   }
 
+  //按照 Event.name 分组
   class CustomKeySelector extends KeySelector[Event, String]() {
     override def getKey(in: Event): String = in.name
   }
 
+  //自定义 Map 返回 HashMap[String, Event]
   class CustomMap2 extends MapFunction[Event, mutable.HashMap[String, Event]]() {
     override def map(t: Event): mutable.HashMap[String, Event] = {
       mutable.HashMap(t.name -> t)
     }
   }
 
+  //自定义 Map 返回 Iterable[String]
   class CustomMap3 extends MapFunction[mutable.HashMap[String, Event], Iterable[String]]() {
     override def map(t: mutable.HashMap[String, Event]): Iterable[String] = {
       val set: Iterable[String] = t.keys
