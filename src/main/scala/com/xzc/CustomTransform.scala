@@ -16,7 +16,7 @@ object CustomTransform {
     val environment: StreamExecutionEnvironment = StreamExecutionEnvironment.getExecutionEnvironment
     environment.setParallelism(1)
     val dataStream: DataStream[Event] = environment.fromElements(Event("w", 1), Event("w", 2), Event("z", 3))
-    dataStream.map(new CustomMap).filter(new CustomFilter).flatMap(new CustomFlatMap).print("999")
+    dataStream.map(new CustomMap).filter(new CustomFilter("w")).flatMap(new CustomFlatMap).print("999")
 
     environment.execute()
   }
@@ -25,9 +25,9 @@ object CustomTransform {
     override def map(t: Event): String = t.name
   }
 
-  class CustomFilter extends FilterFunction[String] {
+  class CustomFilter(key: String) extends FilterFunction[String] {
     override def filter(t: String): Boolean = {
-      if (t.equals("w")) {
+      if (t.equals(key)) {
         true
       } else {
         false
