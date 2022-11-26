@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import scala.tools.nsc.doc.model.Val;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -15,12 +16,12 @@ import java.util.Objects;
 public class JSONParse {
     public static void main(String[] args) {
         Logger log = LoggerFactory.getLogger(JSONParse.class);
-        String str1 = "{\"MPID\":\"0008114560317215753574\",\"DT\":\"2022-11-23 11:40:00\",\"SSID\":\"EMS\",\"FROZEN\":\"0\",\"PERIOD\":\"0\",\"IDTYPE\":\"bpmpid\",\"MDATA\":[{\"TAG\":\"P\",\"VAL\":\"0.000000\",\"Q\":\"0\"},{\"TAG\":\"Q\",\"VAL\":\"0.000000\",\"Q\":\"0\"},{\"TAG\":\"cos\",\"VAL\":\"0.000000\",\"Q\":\"0\"},{\"TAG\":\"Ia\",\"VAL\":\"0.000000\",\"Q\":\"0\"},{\"TAG\":\"I\",\"VAL\":\"0.000000\",\"Q\":\"0\"},{\"TAG\":\"Ib\",\"VAL\":\"0.000000\",\"Q\":\"0\"},{\"TAG\":\"Ic\",\"VAL\":\"\",\"Q\":\"0\"}]}";
+        String str1 = "{\"MPID\":\"0008114560317215753574\",\"DT\":\"2022-11-23 11:40:00\",\"SSID\":\"EMS\",\"FROZEN\":\"0\",\"PERIOD\":\"0\",\"IDTYPE\":\"bpmpid\",\"MDATA\":[{\"TAG\":\"P\",\"VAL\":\"0.0500000\",\"Q\":\"0\"},{\"TAG\":\"Q\",\"VAL\":\"2.0004000\",\"Q\":\"0\"},{\"TAG\":\"cos\",\"VAL\":\"0.0030000\",\"Q\":\"0\"},{\"TAG\":\"Ia\",\"VAL\":\"0.0020000\",\"Q\":\"0\"},{\"TAG\":\"I\",\"VAL\":\"0.1000\",\"Q\":\"0\"},{\"TAG\":\"Ib\",\"VAL\":\"1.000000\",\"Q\":\"0\"}]}";
         String str2 = "{\"DT\":\"2022-11-23 12:45:00\",\"MPID\":\"0004000000000000000000000000000000000000000000000000019940854074\",\"MDATA\":[{\"VAL\":\"245.8\",\"Q\":\"0\",\"TAG\":\"Ua\"}],\"SSID\":\"EIA\"}";
         String str3 = "{\"MPID\":\"0008114560317249298032\",\"DT\":\"2022-11-23 13:10:00\",\"SSID\":\"EMS\",\"FROZEN\":\"0\",\"PERIOD\":\"0\",\"IDTYPE\":\"bpmpid\",\"MDATA\":[{\"TAG\":\"STValue\",\"VAL\":\"1\",\"Q\":\"0\"}]}";
 
         //方法①，不推荐
-        JSONObject jsonObject = JSON.parseObject(str3);
+        JSONObject jsonObject = JSON.parseObject(str1);
         //getJSONArray可能会因为数据异常产生空指针
         JSONArray jsonArray = jsonObject.getJSONArray("MDATA");
         System.out.println(jsonArray);
@@ -55,6 +56,31 @@ public class JSONParse {
         } else {
             System.out.println(str1);
         }
+
+        System.out.println("============================1");
+        Map map = JSONArray.parseObject(str1, Map.class);
+        System.out.println(map.size());//7
+        System.out.println(map);//{DT=2022-11-23 11:40:00, IDTYPE=bpmpid, PERIOD=0, MPID=0008114560317215753574, MDATA=[{"VAL":"0.000000","Q":"0","TAG":"P"},{"VAL":"0.000000","Q":"0","TAG":"Q"},{"VAL":"0.000000","Q":"0","TAG":"cos"},{"VAL":"0.000000","Q":"0","TAG":"Ia"},{"VAL":"0.000000","Q":"0","TAG":"I"},{"VAL":"0.000000","Q":"0","TAG":"Ib"},{"VAL":"","Q":"0","TAG":"Ic"}], FROZEN=0, SSID=EMS}
+        System.out.println(map.get("DT"));//2022-11-23 11:40:00
+        //将数组转换成 List<Map>
+        List<Map> mdata1 = JSONArray.parseArray(map.get("MDATA").toString(), Map.class);
+        System.out.println(mdata1);//[{VAL=0.0500000, Q=0, TAG=P}, {VAL=2.0004000, Q=0, TAG=Q}, {VAL=0.0030000, Q=0, TAG=cos}, {VAL=0.0020000, Q=0, TAG=Ia}, {VAL=0.1000, Q=0, TAG=I}, {VAL=1.000000, Q=0, TAG=Ib}]
+
+        System.out.println("============================2");
+        Object parse = JSONArray.parse(str3);
+        System.out.println(parse.toString());//{"DT":"2022-11-23 13:10:00","IDTYPE":"bpmpid","PERIOD":"0","MPID":"0008114560317249298032","MDATA":[{"VAL":"1","Q":"0","TAG":"STValue"}],"FROZEN":"0","SSID":"EMS"}
+
+        System.out.println("==========遍历MDATA的值并累加输出==================");
+        String mdata = jsonObject.getString("MDATA");
+        List<Map> maps = JSONArray.parseArray(mdata, Map.class);
+        System.out.println(maps);//[{VAL=0.000000, Q=0, TAG=P}, {VAL=0.000000, Q=0, TAG=Q}, {VAL=0.000000, Q=0, TAG=cos}, {VAL=0.000000, Q=0, TAG=Ia}, {VAL=0.000000, Q=0, TAG=I}, {VAL=0.000000, Q=0, TAG=Ib}, {VAL=, Q=0, TAG=Ic}]
+        System.out.println(maps.size());
+        Double sum = 0.0D;
+        for (Map map1 : maps) {
+            sum += Double.parseDouble(map1.get("VAL").toString());
+        }
+        System.out.println(sum);
     }
+
 
 }
