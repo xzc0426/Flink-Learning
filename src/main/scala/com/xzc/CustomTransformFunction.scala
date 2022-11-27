@@ -9,7 +9,7 @@ import org.apache.flink.util.Collector
  * Created by Xu on 2022/11/23.
  * describe: 包含自定义map、flatmap、filter
  */
-object CustomTransform {
+object CustomTransformFunction {
 
   def main(args: Array[String]): Unit = {
 
@@ -27,11 +27,7 @@ object CustomTransform {
 
   class CustomFilter(key: String) extends FilterFunction[String] {
     override def filter(t: String): Boolean = {
-      if (t.equals(key)) {
-        true
-      } else {
-        false
-      }
+      t.equals(key)
     }
   }
 

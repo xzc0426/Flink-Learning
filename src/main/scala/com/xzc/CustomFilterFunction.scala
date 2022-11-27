@@ -11,7 +11,7 @@ import scala.collection.mutable.ListBuffer
  * Created by Xu on 2022/11/24.
  * describe: 
  */
-object CustomFilter {
+object CustomFilterFunction {
   val log: Logger = LoggerFactory.getLogger(classOf[CustomFilter])
 
   def main(args: Array[String]): Unit = {

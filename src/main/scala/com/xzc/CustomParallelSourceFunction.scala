@@ -7,7 +7,7 @@ import org.apache.flink.streaming.api.scala._
  * Created by Xu on 2022/11/23.
  * describe: 
  */
-object CustomSourceStream {
+object CustomParallelSourceFunction {
   def main(args: Array[String]): Unit = {
 
     val env: StreamExecutionEnvironment = StreamExecutionEnvironment.getExecutionEnvironment

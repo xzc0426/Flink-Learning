@@ -1,6 +1,5 @@
 package com.xzc
 
-import com.xzc.CustomTransform.CustomMap
 import com.xzc.caseclass.Event
 import org.apache.flink.api.common.functions.MapFunction
 import org.apache.flink.api.java.functions.KeySelector
@@ -14,29 +13,29 @@ import scala.collection.mutable
  * 注意：
  * 1. max后续数据只会取第一条数据的非匹配值，maxby会取后续数据的值
  * 2. keyby传参：
- *  ①索引从0-n ,即将弃用
- *  ②位置传参的样式为"_1"-"_n",即将弃用
- *  ③Lambda表达式
- *  ④继承KeySelector，自定义keyby
+ * ①索引从0-n ,即将弃用
+ * ②位置传参的样式为"_1"-"_n",即将弃用
+ * ③Lambda表达式
+ * ④继承KeySelector，自定义keyby
  * 3.maxby传参：
- *  ①位置传参的样式为"_1"-"_n"
- *  ②索引位置
- *  ③Lambda表达式
+ * ①位置传参的样式为"_1"-"_n"
+ * ②索引位置
+ * ③Lambda表达式
  *
  */
-object CustomAgg {
+object CustomKeySelector {
   def main(args: Array[String]): Unit = {
 
     val env: StreamExecutionEnvironment = StreamExecutionEnvironment.getExecutionEnvironment
     env.setParallelism(1)
 
-    //    val dataStream: DataStream[Event] = env.addSource(new CustomSource)
-    val dataStream = env.fromElements(("a", "q", 1), ("a", "w", 2), ("a", "e", 1), ("b", "r", 10), ("b", "t", 1))
-    //    dataStream.keyBy(_.name)
-    //    dataStream.keyBy(new CustomKeySelector()) //.map(new CustomMap2()).map(new CustomMap3).print()
+    /*  val dataStream = env.fromElements(("a", "q", 1), ("a", "w", 2), ("a", "e", 1), ("b", "r", 10), ("b", "t", 1))
+      dataStream.keyBy(_._1).max("_3").print()*/
 
-    //    dataStream.keyBy(_._1).maxBy(1).print()
-    dataStream.keyBy(_._1).max("_3").print()
+
+    val dataStream: DataStream[Event] = env.addSource(new CustomSource)
+    //            dataStream.keyBy(_.name)
+    dataStream.keyBy(new CustomKeySelector()).maxBy(1).print()
     env.execute()
   }
 
