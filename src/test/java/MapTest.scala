@@ -42,6 +42,9 @@ object MapTest {
     val i: Int = java.lang.Integer.parseInt(str2)
     val value: Any = parseInt("2")
     println(value)
+    println("=========截取最后一位字符=======")
+    val ss="00005"
+    println(ss.substring(ss.length-1,ss.length))
 
   }
 }

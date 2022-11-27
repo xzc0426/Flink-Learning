@@ -11,7 +11,7 @@ import org.apache.flink.streaming.api.scala._
  * rescale 是数据上游均匀分配下游数据，比如2个并发的上游数据，下游为4个分区，那么每个上游均匀分发被分配的两个分区；
  * rescale 可以结合taskmanager进行优化，每个分组只在同一个taskmanager内进行数据轮询发送，因为他们都在同一个物理节点，可以避免网络IO
  */
-object physicalPartitionPractice2 {
+object PhysicalPartitionPractice2 {
   def main(args: Array[String]): Unit = {
     val env: StreamExecutionEnvironment = StreamExecutionEnvironment.getExecutionEnvironment
 

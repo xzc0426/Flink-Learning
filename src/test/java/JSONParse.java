@@ -80,6 +80,12 @@ public class JSONParse {
             sum += Double.parseDouble(map1.get("VAL").toString());
         }
         System.out.println(sum);
+
+        System.out.println("==========获取VAL==================");
+        String val = maps.get(0).get("VAL").toString();
+        System.out.println(val);
+
+
     }
 
 

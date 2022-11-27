@@ -8,7 +8,7 @@ import org.apache.flink.streaming.api.scala._
  * describe:
  * shuffle、rebalance 分区练习
  */
-object physicalPartitionPractice {
+object PhysicalPartitionPractice {
   def main(args: Array[String]): Unit = {
 
     val env: StreamExecutionEnvironment = StreamExecutionEnvironment.getExecutionEnvironment
