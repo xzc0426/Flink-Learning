@@ -1,13 +1,12 @@
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import org.apache.avro.data.Json;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import scala.tools.nsc.doc.model.Val;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Created by Xu on 2022/11/24.
@@ -82,10 +81,31 @@ public class JSONParse {
         System.out.println(sum);
 
         System.out.println("==========获取VAL==================");
+        System.out.println(maps.size());//6
         String val = maps.get(0).get("VAL").toString();
-        System.out.println(val);
+        System.out.println(val);//0.0500000
+        System.out.println("==========remove MDATA==================");
+        Map map1 = maps.get(0);
+        Object val1 = map1.remove("VAL");
+        System.out.println(val1.toString());//0.0500000
+        System.out.println(map1.keySet());//[Q, TAG]
 
+        System.out.println("==========遍历 MDATA，遍历JSON放到Map==================");
 
+        HashMap<String, String> stringStringHashMap = new HashMap<>();
+        List<HashMap> hashMaps = JSONArray.parseArray(mdata, HashMap.class);
+        for (HashMap hashMap : hashMaps) {
+            stringStringHashMap.put(hashMap.get("TAG").toString(), hashMap.get("VAL").toString());
+        }
+        System.out.println(stringStringHashMap.size());
+
+        System.out.println(stringStringHashMap);
+        System.out.println(JSON.toJSONString(stringStringHashMap));
+        JSONObject jsonObject1 = JSON.parseObject(str1);
+        for (String s : jsonObject1.keySet()) {
+            stringStringHashMap.put(s,jsonObject1.getString(s));
+        }
+        System.out.println(stringStringHashMap);
     }
 
 
