@@ -1,7 +1,7 @@
 package com.xzc.sink
 
-import com.xzc.CustomSource
 import com.xzc.caseclass.Event
+import com.xzc.source.CustomSource
 import org.apache.flink.api.common.serialization.{SimpleStringEncoder, SimpleStringSchema}
 import org.apache.flink.streaming.api.scala._
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaProducer

@@ -1,4 +1,4 @@
-package com.xzc
+package com.xzc.project
 
 import com.alibaba.fastjson.{JSON, JSONObject}
 import org.apache.flink.api.common.functions.FilterFunction

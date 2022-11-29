@@ -1,4 +1,4 @@
-package com.xzc
+package com.xzc.source
 
 import com.xzc.caseclass.Event
 import org.apache.flink.streaming.api.scala._

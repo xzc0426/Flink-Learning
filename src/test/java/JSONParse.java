@@ -103,10 +103,19 @@ public class JSONParse {
         System.out.println(JSON.toJSONString(stringStringHashMap));
         JSONObject jsonObject1 = JSON.parseObject(str1);
         for (String s : jsonObject1.keySet()) {
-            stringStringHashMap.put(s,jsonObject1.getString(s));
+            stringStringHashMap.put(s, jsonObject1.getString(s));
         }
         System.out.println(stringStringHashMap);
+
+        System.out.println(checkData(str1));
+
     }
 
+    //检查是否包含所需数据
+    public static boolean checkData(String json) {
+        if (json.contains("Ia") && json.contains("Ib") && json.contains("P")) {
+            return true;
+        } else return false;
+    }
 
 }

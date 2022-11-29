@@ -1,4 +1,4 @@
-package com.xzc
+package com.xzc.source
 
 import org.apache.flink.api.java.utils.ParameterTool
 import org.apache.flink.streaming.api.scala._

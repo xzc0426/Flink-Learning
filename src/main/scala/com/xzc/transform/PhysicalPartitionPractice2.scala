@@ -1,4 +1,4 @@
-package com.xzc
+package com.xzc.transform
 
 import org.apache.flink.streaming.api.functions.source.{RichParallelSourceFunction, SourceFunction}
 import org.apache.flink.streaming.api.scala._

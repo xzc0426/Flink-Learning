@@ -1,4 +1,4 @@
-package com.xzc
+package com.xzc.transform
 
 import org.apache.flink.api.common.functions.RichMapFunction
 import org.apache.flink.configuration.Configuration

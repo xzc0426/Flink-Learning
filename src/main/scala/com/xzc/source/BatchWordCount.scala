@@ -1,9 +1,6 @@
-package com.xzc
+package com.xzc.source
 
-import org.apache.flink.api.common.serialization.SimpleStringEncoder
 import org.apache.flink.api.scala._
-import org.apache.flink.core.fs.Path
-import org.apache.flink.streaming.api.functions.sink.filesystem.StreamingFileSink
 
 /**
  * Created by Xu on 2022/11/6.

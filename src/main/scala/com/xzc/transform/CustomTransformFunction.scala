@@ -1,4 +1,4 @@
-package com.xzc
+package com.xzc.transform
 
 import com.xzc.caseclass.Event
 import org.apache.flink.api.common.functions.{FilterFunction, FlatMapFunction, MapFunction}

@@ -1,4 +1,4 @@
-package com.xzc
+package com.xzc.transform
 
 import org.apache.flink.api.common.functions.ReduceFunction
 import org.apache.flink.streaming.api.scala._

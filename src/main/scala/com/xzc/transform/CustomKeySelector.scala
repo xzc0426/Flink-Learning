@@ -1,6 +1,7 @@
-package com.xzc
+package com.xzc.transform
 
 import com.xzc.caseclass.Event
+import com.xzc.source.CustomSource
 import org.apache.flink.api.common.functions.MapFunction
 import org.apache.flink.api.java.functions.KeySelector
 import org.apache.flink.streaming.api.scala._
