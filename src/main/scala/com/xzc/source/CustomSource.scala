@@ -2,7 +2,9 @@ package com.xzc.source
 
 import com.xzc.caseclass.Event
 import org.apache.flink.streaming.api.functions.source.{ParallelSourceFunction, SourceFunction}
+import org.apache.flink.streaming.api.watermark.Watermark
 
+import java.util.Calendar
 import scala.util.Random
 
 /**
@@ -22,11 +24,16 @@ class CustomSource extends ParallelSourceFunction[Event] {
 
       val event: Event = Event(
         names(random.nextInt(names.length)), // 随机选择一个 name
-        ages(random.nextInt(ages.length)) // 随机选择一个 age
+        ages(random.nextInt(ages.length)), // 随机选择一个 age
+        Calendar.getInstance.getTimeInMillis //返回此日历的时间值(以毫秒为单位)
       )
 
       //调用collect发送数据
       sourceContext.collect(event)
+      /*    //发送带时间戳的数据
+          sourceContext.collectWithTimestamp(event, event.timeStmp)
+          //发送带水位线的数据
+          sourceContext.emitWatermark(new Watermark(event.timeStmp - 1L))*/
 
 
       Thread.sleep(1000)

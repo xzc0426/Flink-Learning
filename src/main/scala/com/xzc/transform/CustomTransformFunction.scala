@@ -15,7 +15,7 @@ object CustomTransformFunction {
 
     val environment: StreamExecutionEnvironment = StreamExecutionEnvironment.getExecutionEnvironment
     environment.setParallelism(1)
-    val dataStream: DataStream[Event] = environment.fromElements(Event("w", 1), Event("w", 2), Event("z", 3))
+    val dataStream: DataStream[Event] = environment.fromElements(Event("w", 1, 1L), Event("w", 2, 1L), Event("z", 3, 1L))
     dataStream.map(new CustomMap).filter(new CustomFilter("w")).flatMap(new CustomFlatMap).print("999")
 
     environment.execute()
