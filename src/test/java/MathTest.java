@@ -20,10 +20,12 @@ public class MathTest {
             System.out.println("异常" + v2);
 
         }
+        System.out.println(pa / p);
     }
     public static double SplitAndRound(double num, int n) {
         System.out.println("输入"+num);
         num = num * Math.pow(10, n);
         return (Math.round(num)) / (Math.pow(10, n));
+
     }
 }
