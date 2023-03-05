@@ -25,14 +25,13 @@ object CustomWindow {
       }
     ))
     dataStream.keyBy(_.name)
-    //.window(TumblingEventTimeWindows.of(Time.hours(1),Time.minutes(10))) //基于事件时间的滚动窗口
-    //.window(TumblingProcessingTimeWindows.of(Time.days(1), Time.hours(-8))) //基于处理时间的滚动窗口，-8为东八区时间
-    //.window(SlidingEventTimeWindows.of(Time.minutes(10), Time.minutes(1))) //基于事件时间的滑动窗口
-    //.window(SlidingProcessingTimeWindows.of(Time.minutes(10), Time.minutes(1))) //基于处理时间的滑动窗口
-    //.window(EventTimeSessionWindows.withGap(Time.seconds(10))) //基于事件时间的会话窗口
-    //.countWindow(10)//滚动计数窗口
-    //.countWindow(10, 2) //滑动步长为2的计数窗口
-
+    //    .window(TumblingEventTimeWindows.of(Time.hours(1),Time.minutes(10)))  //基于事件时间的滚动窗口，第二个参数为 offset
+    //    .window(TumblingProcessingTimeWindows.of(Time.days(1), Time.hours(-8))) //基于处理时间的滚动窗口，第二个参数为 offset，东八区时间早8小时，-8就变成了UTC时间
+    //    .window(SlidingEventTimeWindows.of(Time.minutes(10), Time.minutes(1)))  //基于事件时间的滑动窗口
+    //    .window(SlidingProcessingTimeWindows.of(Time.minutes(10), Time.minutes(1))) //基于处理时间的滑动窗口
+    //    .window(EventTimeSessionWindows.withGap(Time.seconds(10)))  //基于事件时间的会话窗口
+    //    .countWindow(10)  //滚动计数窗口，大小为10
+    //    .countWindow(10, 2) //滑动步长为2的计数窗口
 
 
     env.execute()
