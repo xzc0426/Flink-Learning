@@ -19,7 +19,7 @@ class CustomSource extends ParallelSourceFunction[Event] {
     val random = new Random()
 
     val names: Array[String] = Array("a", "b", "c", "d")
-    val ages: Array[Int] = Array(11, 12, 13, 14)
+    val ages: Array[Int] = Array(5, 8, 13, 14)
     while (running) {
 
       val event: Event = Event(
@@ -36,7 +36,7 @@ class CustomSource extends ParallelSourceFunction[Event] {
           sourceContext.emitWatermark(new Watermark(event.timeStmp - 1L))*/
 
 
-      Thread.sleep(1000)
+      Thread.sleep(5000)
     }
 
   }
