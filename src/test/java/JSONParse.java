@@ -1,12 +1,12 @@
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import org.apache.avro.data.Json;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import scala.tools.nsc.doc.model.Val;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Xu on 2022/11/24.
@@ -57,7 +57,7 @@ public class JSONParse {
         }
 
         System.out.println("============================1");
-        Map map = JSONArray.parseObject(str1, Map.class);
+        Map map = JSON.parseObject(str1, Map.class);
         System.out.println(map.size());//7
         System.out.println(map);//{DT=2022-11-23 11:40:00, IDTYPE=bpmpid, PERIOD=0, MPID=0008114560317215753574, MDATA=[{"VAL":"0.000000","Q":"0","TAG":"P"},{"VAL":"0.000000","Q":"0","TAG":"Q"},{"VAL":"0.000000","Q":"0","TAG":"cos"},{"VAL":"0.000000","Q":"0","TAG":"Ia"},{"VAL":"0.000000","Q":"0","TAG":"I"},{"VAL":"0.000000","Q":"0","TAG":"Ib"},{"VAL":"","Q":"0","TAG":"Ic"}], FROZEN=0, SSID=EMS}
         System.out.println(map.get("DT"));//2022-11-23 11:40:00

@@ -11,9 +11,11 @@ import org.apache.flink.streaming.api.scala._
 object FullWindowFunctionPractice {
   def main(args: Array[String]): Unit = {
     val env: StreamExecutionEnvironment = StreamExecutionEnvironment.getExecutionEnvironment
+   // 设置并行度为1
     env.setParallelism(1)
     val dataStream: DataStream[Event] = env.addSource(new CustomSource).assignAscendingTimestamps(_.timeStmp)
-    dataStream
+    // 生成窗口
+
     env.execute()
   }
 

@@ -1,4 +1,4 @@
-import com.alibaba.fastjson.{JSON, JSONArray, JSONObject}
+import com.alibaba.fastjson2.{JSON, JSONArray, JSONObject}
 
 import java.util
 import scala.collection.mutable
@@ -41,8 +41,8 @@ object JsonTest {
 
 
     val jsonarray: JSONArray = JSON.parseArray(str)
-    val json1: MdataJson = jsonarray.getObject(0, classOf[MdataJson])
-    println(json1.VAL)
+//    val json1: MdataJson = jsonarray.getObject(0, classOf[MdataJson])
+//    println(json1.VAL)
 
     println("======解析jsonarray======")
     //解析jsonarray

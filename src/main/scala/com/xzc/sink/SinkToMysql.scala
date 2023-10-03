@@ -63,7 +63,7 @@ object SinkToMysql {
         ps.addBatch()
         ps.executeBatch()
       } catch {
-        case _: Exception => 0
+        case _: Exception =>
       }
     }
 

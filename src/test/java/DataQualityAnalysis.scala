@@ -1,11 +1,9 @@
-import com.alibaba.fastjson.{JSON, JSONArray, JSONObject}
+import com.alibaba.fastjson2.{JSON, JSONObject}
 import org.apache.flink.api.common.functions.{RichFlatMapFunction, RichMapFunction}
-import org.apache.flink.streaming.api.datastream.DataStream
-import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment
+import org.apache.flink.streaming.api.scala._
 import org.apache.flink.util.Collector
 
 import java.util
-import java.util.List
 import scala.collection.convert.ImplicitConversions.`collection AsScalaIterable`
 import scala.collection.mutable
 
@@ -49,7 +47,7 @@ object DataQualityAnalysis {
         resultMap += ("VAL" + i -> str)
         println(s"$str || ${i}")
       }
-//      resultMap.+=("MDATA" -> mdataList.toString)
+      //      resultMap.+=("MDATA" -> mdataList.toString)
       resultMap += ("MDATANUM" -> mdataList.size().toString)
       //      println(s"mdataList:$mdataList")
       resultMap

@@ -1,4 +1,4 @@
-import com.alibaba.fastjson.{JSON, JSONObject}
+import com.alibaba.fastjson2.{JSON, JSONObject}
 
 import java.util
 import scala.collection.mutable
