@@ -14,10 +14,10 @@ object WaterMarkPractice {
     val env: StreamExecutionEnvironment = StreamExecutionEnvironment.getExecutionEnvironment
     val dataStream = env.fromElements(("a", "q", 1L), ("a", "w", 2L), ("a", "e", 1L), ("b", "r", 3L), ("b", "t", 5L))
     //设置自动生成水位线周期时间，默认200毫秒
-    env.getConfig.setAutoWatermarkInterval(5000L)
+    env.getConfig.setAutoWatermarkInterval(500L)
 
 
-    //1. 序流生成水位线 forMonotonousTimestamps
+    //1. 有序流生成水位线 forMonotonousTimestamps
     dataStream.assignTimestampsAndWatermarks(
       WatermarkStrategy
         .forMonotonousTimestamps[(String, String, Long)]()
