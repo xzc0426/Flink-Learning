@@ -1,6 +1,6 @@
 package com.xzc.transform
 
-import com.xzc.caseclass.Event
+import com.xzc.caseclass.EventData
 import com.xzc.source.CustomSource
 import org.apache.flink.api.common.functions.MapFunction
 import org.apache.flink.api.java.functions.KeySelector
@@ -34,27 +34,27 @@ object CustomKeySelector {
       dataStream.keyBy(_._1).max("_3").print()*/
 
 
-    val dataStream: DataStream[Event] = env.addSource(new CustomSource)
+    val dataStream: DataStream[EventData] = env.addSource(new CustomSource)
     //            dataStream.keyBy(_.name)
     dataStream.keyBy(new CustomKeySelector()).maxBy(1).print()
     env.execute()
   }
 
   //按照 Event.name 分组
-  class CustomKeySelector extends KeySelector[Event, String]() {
-    override def getKey(in: Event): String = in.name
+  class CustomKeySelector extends KeySelector[EventData, String]() {
+    override def getKey(in: EventData): String = in.name
   }
 
   //自定义 Map 返回 HashMap[String, Event]
-  class CustomMap2 extends MapFunction[Event, mutable.HashMap[String, Event]]() {
-    override def map(t: Event): mutable.HashMap[String, Event] = {
+  class CustomMap2 extends MapFunction[EventData, mutable.HashMap[String, EventData]]() {
+    override def map(t: EventData): mutable.HashMap[String, EventData] = {
       mutable.HashMap(t.name -> t)
     }
   }
 
   //自定义 Map 返回 Iterable[String]
-  class CustomMap3 extends MapFunction[mutable.HashMap[String, Event], Iterable[String]]() {
-    override def map(t: mutable.HashMap[String, Event]): Iterable[String] = {
+  class CustomMap3 extends MapFunction[mutable.HashMap[String, EventData], Iterable[String]]() {
+    override def map(t: mutable.HashMap[String, EventData]): Iterable[String] = {
       val set: Iterable[String] = t.keys
       set
     }

@@ -1,6 +1,6 @@
 package com.xzc.transform
 
-import com.xzc.caseclass.Event
+import com.xzc.caseclass.EventData
 import org.apache.flink.api.common.functions.{FilterFunction, FlatMapFunction, MapFunction}
 import org.apache.flink.streaming.api.scala._
 import org.apache.flink.util.Collector
@@ -15,14 +15,14 @@ object CustomTransformFunction {
 
     val environment: StreamExecutionEnvironment = StreamExecutionEnvironment.getExecutionEnvironment
     environment.setParallelism(1)
-    val dataStream: DataStream[Event] = environment.fromElements(Event("w", 1, 1L), Event("w", 2, 1L), Event("z", 3, 1L))
+    val dataStream: DataStream[EventData] = environment.fromElements(EventData("w", 1, 1L), EventData("w", 2, 1L), EventData("z", 3, 1L))
     dataStream.map(new CustomMap).filter(new CustomFilter("w")).flatMap(new CustomFlatMap).print("999")
 
     environment.execute()
   }
 
-  class CustomMap extends MapFunction[Event, String] {
-    override def map(t: Event): String = t.name
+  class CustomMap extends MapFunction[EventData, String] {
+    override def map(t: EventData): String = t.name
   }
 
   class CustomFilter(key: String) extends FilterFunction[String] {

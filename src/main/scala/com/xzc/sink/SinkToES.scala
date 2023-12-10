@@ -1,6 +1,6 @@
 package com.xzc.sink
 
-import com.xzc.caseclass.Event
+import com.xzc.caseclass.EventData
 import com.xzc.source.CustomSource
 import org.apache.flink.api.common.functions.RuntimeContext
 import org.apache.flink.streaming.api.scala._
@@ -20,17 +20,17 @@ object SinkToES {
   def main(args: Array[String]): Unit = {
     val env: StreamExecutionEnvironment = StreamExecutionEnvironment.getExecutionEnvironment
     env.setParallelism(1)
-    val dataStream: DataStream[Event] = env.addSource(new CustomSource)
+    val dataStream: DataStream[EventData] = env.addSource(new CustomSource)
     val httpHost = new util.ArrayList[HttpHost]()
     httpHost.add(new HttpHost("hadoop102", 9200))
-    dataStream.addSink(new ElasticsearchSink.Builder[Event](httpHost, new elasticsearchSinkFuction).build())
+    dataStream.addSink(new ElasticsearchSink.Builder[EventData](httpHost, new elasticsearchSinkFuction).build())
     env.execute()
   }
 
 
-  class elasticsearchSinkFuction extends ElasticsearchSinkFunction[Event] {
+  class elasticsearchSinkFuction extends ElasticsearchSinkFunction[EventData] {
 
-    override def process(t: Event, runtimeContext: RuntimeContext, requestIndexer: RequestIndexer): Unit = {
+    override def process(t: EventData, runtimeContext: RuntimeContext, requestIndexer: RequestIndexer): Unit = {
       //创建保存数据的map
       val stringToInt = new util.HashMap[String, Int]()
       stringToInt.put(t.name, t.age)

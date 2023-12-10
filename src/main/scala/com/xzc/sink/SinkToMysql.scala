@@ -1,6 +1,6 @@
 package com.xzc.sink
 
-import com.xzc.caseclass.Event
+import com.xzc.caseclass.EventData
 import com.xzc.source.CustomSource
 import org.apache.flink.configuration.Configuration
 import org.apache.flink.connector.jdbc.{JdbcConnectionOptions, JdbcSink, JdbcStatementBuilder}
@@ -17,12 +17,12 @@ object SinkToMysql {
   def main(args: Array[String]): Unit = {
     val env: StreamExecutionEnvironment = StreamExecutionEnvironment.getExecutionEnvironment
     env.setParallelism(1)
-    val dataStream: DataStream[Event] = env.addSource(new CustomSource)
+    val dataStream: DataStream[EventData] = env.addSource(new CustomSource)
 
     dataStream.addSink(JdbcSink.sink(
       "INSERT INTO event (name,age) VALUES(?,?)",
-      new JdbcStatementBuilder[Event] {
-        override def accept(t: PreparedStatement, u: Event): Unit = {
+      new JdbcStatementBuilder[EventData] {
+        override def accept(t: PreparedStatement, u: EventData): Unit = {
           t.setString(1, u.name)
           t.setInt(2, u.age)
         }
@@ -40,7 +40,7 @@ object SinkToMysql {
     env.execute()
   }
 
-  class MySQLSink extends RichSinkFunction[Event] {
+  class MySQLSink extends RichSinkFunction[EventData] {
     var conn: Connection = _
     var ps: PreparedStatement = _
     val INSERT_CASE: String =
@@ -56,7 +56,7 @@ object SinkToMysql {
       ps = conn.prepareStatement(INSERT_CASE)
     }
 
-    override def invoke(value: Event): Unit = {
+    override def invoke(value: EventData): Unit = {
       try {
         ps.setString(1, value.name)
         ps.setLong(2, value.age)

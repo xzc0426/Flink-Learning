@@ -1,6 +1,6 @@
 package com.xzc.transform
 
-import com.xzc.caseclass.Event
+import com.xzc.caseclass.EventData
 import com.xzc.source.CustomSource
 import org.apache.flink.streaming.api.scala._
 
@@ -14,7 +14,7 @@ object PhysicalPartitionPractice {
 
     val env: StreamExecutionEnvironment = StreamExecutionEnvironment.getExecutionEnvironment
     env.setParallelism(1)
-    val dataStream: DataStream[Event] = env.addSource(new CustomSource)
+    val dataStream: DataStream[EventData] = env.addSource(new CustomSource)
     //shuffle随机分发数据到4个分区
     //    dataStream.shuffle.print().setParallelism(4)
     //采用Round-Robin算法轮询发送，各轮询各的，去掉 .rebalance 后输出其实也是按照轮询分发数据

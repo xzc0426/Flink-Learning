@@ -1,6 +1,6 @@
 package com.xzc.project
 
-import com.alibaba.fastjson.{JSON, JSONObject}
+import com.alibaba.fastjson2.{JSON, JSONObject}
 import org.apache.flink.api.common.functions.FilterFunction
 import org.apache.flink.streaming.api.scala._
 import org.slf4j.{Logger, LoggerFactory}

@@ -1,6 +1,6 @@
 package com.xzc.source
 
-import com.xzc.caseclass.Event
+import com.xzc.caseclass.EventData
 import org.apache.flink.streaming.api.scala._
 
 /**
@@ -12,7 +12,7 @@ object CustomParallelSourceFunction {
 
     val env: StreamExecutionEnvironment = StreamExecutionEnvironment.getExecutionEnvironment
     // 使用自定义的数据源
-    val dataStream: DataStream[Event] = env.addSource(new CustomSource).setParallelism(2)
+    val dataStream: DataStream[EventData] = env.addSource(new CustomSource).setParallelism(2)
     dataStream.print()
     env.execute()
 

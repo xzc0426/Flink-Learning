@@ -1,6 +1,6 @@
 package com.xzc.window
 
-import com.xzc.caseclass.Event
+import com.xzc.caseclass.EventData
 import com.xzc.source.CustomSource
 import org.apache.flink.api.common.eventtime.{SerializableTimestampAssigner, WatermarkStrategy}
 import org.apache.flink.streaming.api.scala._
@@ -19,9 +19,9 @@ object CustomWindow {
   def main(args: Array[String]): Unit = {
 
     val env: StreamExecutionEnvironment = StreamExecutionEnvironment.getExecutionEnvironment
-    val dataStream: DataStream[Event] = env.addSource(new CustomSource).assignTimestampsAndWatermarks(WatermarkStrategy.forMonotonousTimestamps().withTimestampAssigner(
-      new SerializableTimestampAssigner[Event] {
-        override def extractTimestamp(element: Event, recordTimestamp: Long): Long = element.timeStmp
+    val dataStream: DataStream[EventData] = env.addSource(new CustomSource).assignTimestampsAndWatermarks(WatermarkStrategy.forMonotonousTimestamps().withTimestampAssigner(
+      new SerializableTimestampAssigner[EventData] {
+        override def extractTimestamp(element: EventData, recordTimestamp: Long): Long = element.timeStamp
       }
     ))
     dataStream.keyBy(_.name)

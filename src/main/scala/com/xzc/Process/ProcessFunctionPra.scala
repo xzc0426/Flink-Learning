@@ -1,6 +1,6 @@
 package com.xzc.Process
 
-import com.xzc.caseclass.Event
+import com.xzc.caseclass.EventData
 import com.xzc.source.CustomSource
 import org.apache.flink.streaming.api.functions.ProcessFunction
 import org.apache.flink.streaming.api.scala._
@@ -14,10 +14,10 @@ object ProcessFunctionPra {
   def main(args: Array[String]): Unit = {
     val env: StreamExecutionEnvironment = StreamExecutionEnvironment.getExecutionEnvironment
     env.setParallelism(1)
-    val stream: DataStream[Event] = env.addSource(new CustomSource).assignAscendingTimestamps(_.timeStmp)
+    val stream: DataStream[EventData] = env.addSource(new CustomSource).assignAscendingTimestamps(_.timeStamp)
 
-    stream.process(new ProcessFunction[Event, String] {
-      override def processElement(value: Event, ctx: ProcessFunction[Event, String]#Context, out: Collector[String]): Unit = {
+    stream.process(new ProcessFunction[EventData, String] {
+      override def processElement(value: EventData, ctx: ProcessFunction[EventData, String]#Context, out: Collector[String]): Unit = {
 
         if (value.age < 10) {
           out.collect(value.name)

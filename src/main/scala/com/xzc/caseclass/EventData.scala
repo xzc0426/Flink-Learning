@@ -5,6 +5,6 @@ package com.xzc.caseclass
  * describe: 
  */
 
-case class Event(name: String, age: Int, timeStmp: Long)
+case class EventData(name: String, age: Int, timeStamp: Long)
 
 

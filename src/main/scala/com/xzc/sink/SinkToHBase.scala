@@ -1,6 +1,6 @@
 package com.xzc.sink
 
-import com.xzc.caseclass.Event
+import com.xzc.caseclass.EventData
 import com.xzc.source.CustomSource
 import org.apache.flink.configuration.Configuration
 import org.apache.flink.streaming.api.functions.sink.RichSinkFunction
@@ -16,11 +16,11 @@ object SinkToHBase {
   def main(args: Array[String]): Unit = {
     val env: StreamExecutionEnvironment = StreamExecutionEnvironment.getExecutionEnvironment
     env.setParallelism(1)
-    val dataStream: DataStream[Event] = env.addSource(new CustomSource)
+    val dataStream: DataStream[EventData] = env.addSource(new CustomSource)
     dataStream.addSink(new HBaseSink)
   }
 
-  class HBaseSink extends RichSinkFunction[Event] {
+  class HBaseSink extends RichSinkFunction[EventData] {
     var connection: Connection = null
     var configuration: org.apache.hadoop.conf.Configuration = null
     var table: Table = null
@@ -34,7 +34,7 @@ object SinkToHBase {
 
     }
 
-    override def invoke(value: Event): Unit = {
+    override def invoke(value: EventData): Unit = {
       val put = new Put("RowKey".getBytes()) //指定ROWKEY
       put.addColumn("columnFamily".getBytes(), "qualifier".getBytes, value.asInstanceOf[String].getBytes)
       table.put(put)

@@ -1,7 +1,7 @@
 package com.xzc.Process
 
 
-import com.xzc.caseclass.Event
+import com.xzc.caseclass.EventData
 import com.xzc.source.CustomSource
 import org.apache.flink.streaming.api.functions.KeyedProcessFunction
 import org.apache.flink.streaming.api.scala._
@@ -15,9 +15,9 @@ object KeyedProcessFunctionPra {
   def main(args: Array[String]): Unit = {
     val env: StreamExecutionEnvironment = StreamExecutionEnvironment.getExecutionEnvironment
     env.setParallelism(1)
-    val stream: DataStream[Event] = env.addSource(new CustomSource)
-    stream.keyBy(x => true).process(new KeyedProcessFunction[Boolean, Event, String] {
-      override def processElement(value: Event, ctx: KeyedProcessFunction[Boolean, Event, String]#Context, out: Collector[String]): Unit = {
+    val stream: DataStream[EventData] = env.addSource(new CustomSource)
+    stream.keyBy(x => true).process(new KeyedProcessFunction[Boolean, EventData, String] {
+      override def processElement(value: EventData, ctx: KeyedProcessFunction[Boolean, EventData, String]#Context, out: Collector[String]): Unit = {
 
         val cdt: Long = ctx.timerService().currentProcessingTime()
         out.collect("当前时间：" + cdt)
@@ -26,7 +26,7 @@ object KeyedProcessFunctionPra {
 
       }
 
-      override def onTimer(timestamp: Long, ctx: KeyedProcessFunction[Boolean, Event, String]#OnTimerContext, out: Collector[String]): Unit = {
+      override def onTimer(timestamp: Long, ctx: KeyedProcessFunction[Boolean, EventData, String]#OnTimerContext, out: Collector[String]): Unit = {
 
         out.collect("定时器触发：" + timestamp)
 

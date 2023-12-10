@@ -1,6 +1,6 @@
 package com.xzc.window
 
-import com.xzc.caseclass.Event
+import com.xzc.caseclass.EventData
 import com.xzc.source.CustomSource
 import org.apache.flink.streaming.api.scala._
 
@@ -13,7 +13,7 @@ object FullWindowFunctionPractice {
     val env: StreamExecutionEnvironment = StreamExecutionEnvironment.getExecutionEnvironment
    // 设置并行度为1
     env.setParallelism(1)
-    val dataStream: DataStream[Event] = env.addSource(new CustomSource).assignAscendingTimestamps(_.timeStmp)
+    val dataStream: DataStream[EventData] = env.addSource(new CustomSource).assignAscendingTimestamps(_.timeStamp)
     // 生成窗口
 
     env.execute()
