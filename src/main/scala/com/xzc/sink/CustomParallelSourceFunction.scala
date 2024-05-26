@@ -1,6 +1,7 @@
-package com.xzc.source
+package com.xzc.sink
 
 import com.xzc.caseclass.EventData
+import com.xzc.source.CustomSource
 import org.apache.flink.streaming.api.scala._
 
 /**

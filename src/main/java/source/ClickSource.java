@@ -1,4 +1,4 @@
-package dataStreamApi;
+package source;
 import org.apache.flink.streaming.api.functions.source.SourceFunction;
 
 import java.util.Calendar;
@@ -13,7 +13,7 @@ public class ClickSource implements SourceFunction<Event> {
         Random random = new Random();
         // 定义字段选取的数据集
         String[] users = {"Mary", "Alice", "Bob", "Cary"};
-        String[] urls = {"./home", "./cart", "./fav"};
+        String[] urls = {"0", "1"};
         // 循环生成数据
         while (running){
             String user = users[random.nextInt(users.length)];

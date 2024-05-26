@@ -4,7 +4,7 @@ import org.apache.flink.streaming.api.scala._
 import org.apache.flink.util.Collector
 
 import java.util
-import scala.collection.convert.ImplicitConversions.`collection AsScalaIterable`
+import scala.collection.JavaConversions.asScalaBuffer
 import scala.collection.mutable
 
 

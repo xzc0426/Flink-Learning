@@ -11,6 +11,8 @@ import java.util.Properties
  * describe: 
  */
 object KafkaSourceStream {
+  private val Source_Topic: String = "KafkaSourceStream"
+
   def main(args: Array[String]): Unit = {
 
     val env: StreamExecutionEnvironment = StreamExecutionEnvironment.getExecutionEnvironment
@@ -19,11 +21,12 @@ object KafkaSourceStream {
     val properties = new Properties()
     properties.setProperty("bootstrap.servers", "hadoop102:9092")
     properties.setProperty("group.id", "KafkaSourceStream")
+    properties.setProperty("auto.offset.reset", "latest")
 
-    val dataStream: DataStream[String] = env.addSource(new FlinkKafkaConsumer[String]("KafkaSourceStream", new SimpleStringSchema(), properties))
+    val dataStream: DataStream[String] = env.addSource(new FlinkKafkaConsumer[String](Source_Topic, new SimpleStringSchema(), properties)).setParallelism(3).name("KafkaSourceStream")
     dataStream.print()
 
-    env.execute()
+    env.execute("KafkaSourceStream")
   }
 
 }
